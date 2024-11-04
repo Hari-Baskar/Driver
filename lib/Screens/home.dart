@@ -59,7 +59,10 @@ class _HomeState extends State<Home> {
                 subtitle: TextWidget(text: "Praveen", fontWeight: FontWeight.w300, fontsize: divHeight*0.017, fontColor: Colors.white),
               ),
             ),
-
+DrawerItems(title: "Notifications",icon:Icon(Icons.notifications_none_rounded,color: Colors.yellow,size: divHeight*0.04,)),
+            Divider(height: divHeight*0.01,),
+            DrawerItems(title: "Logout",icon:Icon(Icons.logout,color: Colors.red,size: divHeight*0.04,)),
+            Divider(height: divHeight*0.01,),
           ],
         ),
       ),
@@ -294,13 +297,15 @@ TicketBox({
     );
 }
 DrawerItems({
-    required Color IconColor,
-  required double IconSize,
+
+  required String title,
+  required  Icon icon
 }){
 
     return ListTile(
-      leading: Icon(Icons.notifications_none_rounded,color: IconColor,size: IconSize,),
-      title: TextWidget(text: " Notifications", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
-    )
+      leading: icon,
+      title: TextWidget(text: title, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+      trailing: Icon(Icons.chevron_right,color: Colors.black,size: divHeight*0.02 ,),
+    );
 }
 }

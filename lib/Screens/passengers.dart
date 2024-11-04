@@ -173,7 +173,7 @@ selected ?              Container(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-              checked ?  Icon(Icons.check_box_outlined,color: Colors.green,): IconButton(icon:Icon(Icons.check_box_outline_blank_rounded,color: Colors.black,)  , onPressed: () {
+              checked ? Text(""): IconButton(icon:Icon(Icons.check_box_outline_blank_rounded,color: Colors.black,)  , onPressed: () {
                    setState(() {
                     // checked=!checked;
                      passenger.insert(0,{"studentName":upcoming[index]["studentName"],"classAndSec":upcoming[index]["classAndSec"],"checked":true,"studentId":upcoming[index]["studentId"]});
