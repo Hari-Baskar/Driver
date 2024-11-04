@@ -70,6 +70,7 @@ class _HistoryState extends State<History> {
             SizedBox(height: divHeight*0.02,),
             Container(
               width: divWidth*0.90,
+              height: divHeight*0.06,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(width: 1.0,color: Color(0xFF00A0E3)),

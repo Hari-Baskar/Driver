@@ -59,6 +59,7 @@ class _PassengersState extends State<Passengers> {
              SizedBox(height: divHeight*0.02,),
              //StudentIdBox(),
              Container(
+               height: divHeight*0.06,
                width: divWidth*0.90,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.circular(10),
@@ -201,7 +202,7 @@ selected ?              Container(
     required bool Selected
 }){
     return Container(
-      height: divHeight*0.08,
+      height: divHeight*0.06,
       width: divWidth*0.447,
       decoration: BoxDecoration(
           color: Selected?   Color(0xFF00A0E3):Colors.transparent,

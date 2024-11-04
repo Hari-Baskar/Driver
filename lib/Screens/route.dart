@@ -31,6 +31,7 @@ class _RoutePathState extends State<RoutePath> {
         child: Padding(padding: EdgeInsets.all(15),child: Column(
           children: [
             Container(
+              height: divHeight*0.06,
               width: divWidth*0.90,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
