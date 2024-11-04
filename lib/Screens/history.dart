@@ -69,10 +69,10 @@ class _HistoryState extends State<History> {
             ButtonWidget(buttonName: "Get Details", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
             SizedBox(height: divHeight*0.02,),
             Container(
-              width: divWidth*0.98,
+              width: divWidth*0.90,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 1.0),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1.0,color: Color(0xFF00A0E3)),
                   color: Colors.white
               ),
               child: Row(
@@ -117,10 +117,10 @@ class _HistoryState extends State<History> {
   }){
     return Container(
       height: divHeight*0.08,
-      width: divWidth*0.461,
+      width: divWidth*0.447,
       decoration: BoxDecoration(
           color: Selected?   Color(0xFF00A0E3):Colors.transparent,
-          borderRadius: BorderRadius.circular(15)
+          borderRadius: BorderRadius.circular(10)
       ),
       child: Center(
         child: TextWidget(text: title, fontWeight: FontWeight.w700, fontsize: divHeight*0.017, fontColor:Selected? Colors.white:Colors.black ),

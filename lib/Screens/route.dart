@@ -31,10 +31,10 @@ class _RoutePathState extends State<RoutePath> {
         child: Padding(padding: EdgeInsets.all(15),child: Column(
           children: [
             Container(
-              width: divWidth*0.98,
+              width: divWidth*0.90,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 1.0),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1.0,color:Color(0xFF00A0E3) ),
                   color: Colors.white
               ),
               child: Row(
@@ -83,10 +83,10 @@ class _RoutePathState extends State<RoutePath> {
   }){
     return Container(
       height: divHeight*0.08,
-      width: divWidth*0.461,
+      width: divWidth*0.447,
       decoration: BoxDecoration(
           color: Selected?   Color(0xFF00A0E3):Colors.transparent,
-          borderRadius: BorderRadius.circular(15)
+          borderRadius: BorderRadius.circular(10)
       ),
       child: Center(
         child: TextWidget(text: title, fontWeight: FontWeight.w700, fontsize: divHeight*0.017, fontColor:Selected? Colors.white:Colors.black ),
