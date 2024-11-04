@@ -66,7 +66,7 @@ class _HistoryState extends State<History> {
           ]
            ),
             SizedBox(height: divHeight*0.02,),
-            ButtonWidget(buttonName: "Get Details", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
+            ButtonWidget(buttonName: "Get Details", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white),
             SizedBox(height: divHeight*0.02,),
             Container(
               width: divWidth*0.90,
@@ -131,11 +131,12 @@ class _HistoryState extends State<History> {
     required String Date
 }){
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(width: 1.0)
       ),
-      child:ListTile(title: TextWidget(text: Date, fontWeight: FontWeight.w700, fontsize: divHeight*0.017, fontColor: Colors.black),trailing:InkWell(
+      child:ListTile(title: TextWidget(text: Date, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),trailing:InkWell(
           onTap: (){
             Get.to(()=>DetailedHistory(),transition: Transition.zoom, duration: Durations.medium4);
 

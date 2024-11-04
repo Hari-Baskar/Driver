@@ -25,11 +25,12 @@ class _EmergencyState extends State<Emergency> {
 
       ),
       body: SingleChildScrollView(child: Padding(padding: EdgeInsets.all(15),child:Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(children: [
 
-            TextWidget(text: "Situation", fontWeight: FontWeight.bold, fontsize: divHeight*0.022, fontColor: Colors.black),
+            TextWidget(text: "Situation  :", fontWeight: FontWeight.w500, fontsize: divHeight*0.022, fontColor: Colors.black),
             Spacer(),
             Container(
                 width: divWidth*0.6,
@@ -38,9 +39,9 @@ class _EmergencyState extends State<Emergency> {
 
           ],),
           SizedBox(height: divHeight*0.02,),
-          ButtonWidget(buttonName: "Alert both parents and school", buttonWidth: divWidth*0.7, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
+          ButtonWidget(buttonName: "Send to parents and school", buttonWidth: divWidth*0.7, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white),
           SizedBox(height: divHeight*0.02,),
-          ButtonWidget(buttonName: " Alert only school", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white)
+          ButtonWidget(buttonName: " send only school", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white)
         ],
       ),),),
     );

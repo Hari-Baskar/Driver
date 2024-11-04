@@ -48,7 +48,7 @@ class _PassengersState extends State<Passengers> {
            children: [
              Row(children: [
 
-               TextWidget(text: "Student Id :", fontWeight: FontWeight.bold, fontsize: divHeight*0.022, fontColor: Colors.black),
+               TextWidget(text: "Student Id :", fontWeight: FontWeight.w500, fontsize: divHeight*0.022, fontColor: Colors.black),
                Spacer(),
                Container(
                    width: divWidth*0.6,
@@ -121,7 +121,9 @@ selected ?              Container(
          Spacer(),
          FloatingActionButton.extended(
            backgroundColor: Color(0xFF00A0E3),
-           onPressed: (){},label:ButtonWidget(buttonName: "Submit All", buttonWidth: divWidth*0.4, buttonColor:Color(0xFF00A0E3) , fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white))]
+           onPressed: (){},label:InkWell(
+             onTap: (){},
+             child: ButtonWidget(buttonName: "Submit All", buttonWidth: divWidth*0.4, buttonColor:Color(0xFF00A0E3) , fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white)))]
        )):null ,
     );
   }

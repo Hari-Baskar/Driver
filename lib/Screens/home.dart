@@ -142,7 +142,7 @@ body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Col
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
 
-      TextWidget(text: "Amount :", fontWeight: FontWeight.bold, fontsize: divHeight*0.019, fontColor: Colors.black),
+      TextWidget(text: "Amount :", fontWeight: FontWeight.w500, fontsize: divHeight*0.019, fontColor: Colors.black),
 
       Container(
           width: divWidth*0.6,
@@ -182,8 +182,8 @@ BoxWidget({
         height: divHeight*0.2,
         width: divWidth*0.43,
         decoration: BoxDecoration(
-          color: Colors.grey,
-            border: Border.all(color: Colors.black,width: 1),
+          color: Color(0xFF00A0E3) ,
+            border: Border.all(color: Color(0xFF00A0E3) ,width: 1),
            borderRadius: BorderRadius.circular(21)
         ),
         child: Column(

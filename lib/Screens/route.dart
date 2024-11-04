@@ -67,8 +67,8 @@ class _RoutePathState extends State<RoutePath> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ButtonWidget(buttonName: "Edit Route", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
-                ButtonWidget(buttonName: "Show Route", buttonWidth: divWidth*0.4, buttonColor: Color(0xFF00A0E3), fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
+                ButtonWidget(buttonName: "Edit Route", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white),
+                ButtonWidget(buttonName: "Show Route", buttonWidth: divWidth*0.4, buttonColor: Color(0xFF00A0E3), fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white),
 
               ],
             )
