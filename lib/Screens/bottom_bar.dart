@@ -1,3 +1,4 @@
+import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Screens/emergency.dart';
 import 'package:driver/Screens/history.dart';
 import 'package:driver/Screens/home.dart';
@@ -30,13 +31,13 @@ class _BottomBarState extends State< BottomBar> {
           items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
-          label: "Home"
+          label: home
           
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.group),  label: "Passengers"),
-        BottomNavigationBarItem(icon: Icon(Icons.alt_route_rounded),  label: "Route"),
-        BottomNavigationBarItem(icon: Icon(Icons.bus_alert),  label: "Emergency"),
-        BottomNavigationBarItem(icon: Icon(Icons.history),  label: "History"),
+        BottomNavigationBarItem(icon: Icon(Icons.group),  label: passengers),
+        BottomNavigationBarItem(icon: Icon(Icons.alt_route_rounded),  label: route),
+        BottomNavigationBarItem(icon: Icon(Icons.bus_alert),  label: emergency),
+        BottomNavigationBarItem(icon: Icon(Icons.history),  label: history),
 
       ],
       selectedItemColor: Color(0xFF00A0E3),

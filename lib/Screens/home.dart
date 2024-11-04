@@ -1,4 +1,11 @@
-import 'package:driver/widgets.dart';
+
+import 'package:driver/Commons/constant_strings.dart';
+import 'package:driver/Custom_Widgets/custom_Button.dart';
+import 'package:driver/Custom_Widgets/custom_appBar.dart';
+import 'package:driver/Custom_Widgets/custom_dropDownWidget.dart';
+import 'package:driver/Custom_Widgets/custom_snackBar.dart';
+import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
+import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -10,10 +17,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var divHeight,divWidth;
+  late double divHeight,divWidth;
   TextEditingController amount=TextEditingController();
   String? ticket;
-  List Ticket=[
+  List ticketsList=[
     "Petrol Allowance",
     "Vechile Service",
 
@@ -34,29 +41,21 @@ class _HomeState extends State<Home> {
     divWidth=MediaQuery.of(context).size.width;
     divHeight=MediaQuery.of(context).size.height;
     return  Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white, // Change the drawer icon color to white
-        ),
-        backgroundColor: Color(0xFF00A0E3),
-        centerTitle: true,
-        title: TextWidget(text: 'Home', fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white),
-
-      ),
+      appBar: appBarWidget(title: home, fontsize: divHeight*0.02),
       drawer: Drawer(
 
         child: Column(
           children: [
 
-            SizedBox(height: divHeight*0.04,child: Container(color:Color(0xFF00A0E3) ,),),
+            SizedBox(height: divHeight*0.04,child: Container(color:const Color(0xFF00A0E3) ,),),
          Container(
 
-              color: Color(0xFF00A0E3),
+              color: const Color(0xFF00A0E3),
               child:ListTile(
-                leading: CircleAvatar(backgroundColor: Colors.white,),
+                leading: const CircleAvatar(backgroundColor: Colors.white,),
 
-                title: TextWidget(text: "Vechile Id", fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white),
-                subtitle: TextWidget(text: "Praveen", fontWeight: FontWeight.w300, fontsize: divHeight*0.017, fontColor: Colors.white),
+                title: textWidget(text: "Vechile Id", fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white),
+                subtitle: textWidget(text: "Praveen", fontWeight: FontWeight.w300, fontsize: divHeight*0.017, fontColor: Colors.white),
               ),
             ),
 DrawerItems(title: "Notifications",icon:Icon(Icons.notifications_none_rounded,color: Colors.yellow,size: divHeight*0.04,)),
@@ -66,15 +65,15 @@ DrawerItems(title: "Notifications",icon:Icon(Icons.notifications_none_rounded,co
           ],
         ),
       ),
-body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Column(
+body: SingleChildScrollView(child:Padding(padding: const EdgeInsets.all(15),child: Column(
   children: [
     Row(children: [
       SizedBox(height: divHeight*0.02,),
       Image.asset("Assets/speed.png",height: divHeight*0.025,color: Colors.blueGrey,),
       SizedBox(width: divWidth*0.015,),
-      TextWidget(text: "Speed Limit", fontWeight: FontWeight.bold, fontsize: divHeight*0.019, fontColor: Colors.black),Spacer(),
-     Spacer(),
-      TextWidget(text: "Date", fontWeight: FontWeight.w700, fontsize: divHeight*0.017, fontColor: Colors.black),
+      textWidget(text: "Speed Limit", fontWeight: FontWeight.bold, fontsize: divHeight*0.019, fontColor: Colors.black),const Spacer(),
+     const Spacer(),
+      textWidget(text: "Date", fontWeight: FontWeight.w700, fontsize: divHeight*0.017, fontColor: Colors.black),
 
 
     ],),
@@ -84,11 +83,11 @@ body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Col
       child:
     SfCartesianChart(
 
-      primaryXAxis: NumericAxis(),
-      primaryYAxis: NumericAxis(),
+      primaryXAxis: const NumericAxis(),
+      primaryYAxis: const NumericAxis(),
       series: <CartesianSeries>[
         SplineSeries<Map<String, double>, double>(
-          dataSource: [
+          dataSource: const [
             {'x': 0, 'y': 10},
             {'x': 1, 'y': 7},
             {'x': 2, 'y': 10},
@@ -114,7 +113,7 @@ body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Col
     Row(children: [
       Image.asset("Assets/vechile.png",height: divHeight*0.02,color: Colors.teal,),
       SizedBox(width: divWidth*0.015,),
-      TextWidget(text: "Vechile Expense", fontWeight: FontWeight.bold, fontsize: divHeight*0.019, fontColor: Colors.black),Spacer(),
+      textWidget(text: "Vechile Expense", fontWeight: FontWeight.bold, fontsize: divHeight*0.019, fontColor: Colors.black),const Spacer(),
 
     ],),
     SizedBox(height: divHeight*0.01,),
@@ -128,12 +127,12 @@ body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Col
     Row(children: [
       Image.asset("Assets/ticket.png",height: divHeight*0.02,color: Colors.green,),
       SizedBox(width: divWidth*0.015,),
-      TextWidget(text: "Raise Ticket", fontWeight: FontWeight.bold, fontsize: divHeight*0.019
-          , fontColor: Colors.black),Spacer(),
+      textWidget(text: "Raise Ticket", fontWeight: FontWeight.bold, fontsize: divHeight*0.019
+          , fontColor: Colors.black),const Spacer(),
 
     ],),
     SizedBox(height: divHeight*0.01,),
-    DropDownWidget(Items:Ticket , Onchange: (newValue){
+    dropDownWidget(Items:ticketsList , Onchange: (newValue){
       setState(() {
         ticket=newValue;
       });
@@ -146,28 +145,28 @@ body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Col
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
 
-      TextWidget(text: "Amount :", fontWeight: FontWeight.w500, fontsize: divHeight*0.019, fontColor: Colors.black),
+      textWidget(text: "Amount :", fontWeight: FontWeight.w500, fontsize: divHeight*0.019, fontColor: Colors.black),
 
       Container(
           width: divWidth*0.6,
           child:
-      TextFieldWidget(hintText: "Enter the Amount", control: amount,prefix: Text("₹ "),textfieldType: TextInputType.number,)),
+      textFieldWidget(hintText: "Enter the Amount", control: amount,prefix: const Text("₹ "),textfieldType: TextInputType.number,)),
 
     ],),
 SizedBox(height: divHeight*0.02,),
       InkWell(
            onTap: (){
              if (ticket==null){
-               Message(context: context, Content: "Please Select the Ticket", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
+               message(context: context, Content: "Please Select the Ticket", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
 
              }
              else if(amount.text.isEmpty){
 
-                 Message(context: context, Content: "Please Enter the Amount", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
+                 message(context: context, Content: "Please Enter the Amount", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
 
                }
              else {
-               Message(context: context,
+               message(context: context,
                    Content: "Ticket Raised Successfully",
                    fontSize: divHeight * 0.017,
                    fontColor: Colors.white,
@@ -175,7 +174,7 @@ SizedBox(height: divHeight*0.02,),
              }
             // print(amount.text.isNotEmpty);
            },
-       child: ButtonWidget(buttonName: "Raise Ticket", buttonWidth: divWidth*0.5, buttonColor: Color(0xFF00A0E3), fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
+       child: buttonWidget(buttonName: "Raise Ticket", buttonWidth: divWidth*0.5, buttonColor: const Color(0xFF00A0E3), fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
      ),
     SizedBox(height: divHeight*0.02,),
     TicketBox(TicketName: ticket.toString(), Amount: amount.text)
@@ -200,8 +199,8 @@ BoxWidget({
         height: divHeight*0.2,
         width: divWidth*0.43,
         decoration: BoxDecoration(
-          color: Color(0xFF00A0E3) ,
-            border: Border.all(color: Color(0xFF00A0E3) ,width: 1),
+          color: const Color(0xFF00A0E3) ,
+            border: Border.all(color: const Color(0xFF00A0E3) ,width: 1),
            borderRadius: BorderRadius.circular(21)
         ),
         child: Column(
@@ -223,15 +222,15 @@ BoxWidget({
                   children: [
 
                     Image.asset(Img,height: divHeight*0.04,color: Imgcolor,),
-                    TextWidget(text: title, fontWeight: FontWeight.bold, fontsize: divHeight*0.016, fontColor: Colors.black),
+                    textWidget(text: title, fontWeight: FontWeight.bold, fontsize: divHeight*0.016, fontColor: Colors.black),
                   ],
                 ),
 
 
             ),
-            Spacer(),
-            TextWidget(text:"₹ "+Amount, fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white,),
-            Spacer(),
+            const Spacer(),
+            textWidget(text:"₹ "+Amount, fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white,),
+            const Spacer(),
           ],
         ),
         
@@ -249,7 +248,7 @@ TicketBox({
         borderRadius:  BorderRadius.circular(15)
       ),
       child: Container(
-        padding:  EdgeInsets.all(10),
+        padding:  const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(width: 1.0)
@@ -265,8 +264,8 @@ TicketBox({
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                TextWidget(text: TicketName, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
-                TextWidget(text:"₹ "+ Amount, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.green),
+                textWidget(text: TicketName, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+                textWidget(text:"₹ "+ Amount, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.green),
               ],
             ),
             ),
@@ -275,8 +274,8 @@ TicketBox({
           child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextWidget(text: DateFormat("dd-mm-yyyy").format(now), fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
-                TextWidget(text: DateFormat("hh:mm a").format(now), fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+                textWidget(text: DateFormat("dd-mm-yyyy").format(now), fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+                textWidget(text: DateFormat("hh:mm a").format(now), fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
               ],
             ),
         ),
@@ -285,7 +284,7 @@ TicketBox({
   child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextWidget(text: "Pending", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.orangeAccent),
+                textWidget(text: "Pending", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.orangeAccent),
 
               ],
             ),
@@ -304,8 +303,10 @@ DrawerItems({
 
     return ListTile(
       leading: icon,
-      title: TextWidget(text: title, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+      title: textWidget(text: title, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
       trailing: Icon(Icons.chevron_right,color: Colors.black,size: divHeight*0.02 ,),
     );
 }
+
+
 }

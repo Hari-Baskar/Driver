@@ -1,5 +1,10 @@
-import 'package:driver/widgets.dart';
+import 'package:driver/Commons/constant_strings.dart';
+import 'package:driver/Custom_Widgets/custom_Button.dart';
+import 'package:driver/Custom_Widgets/custom_appBar.dart';
+import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
+import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:flutter/material.dart';
+
 class Emergency extends StatefulWidget {
   const Emergency({super.key});
 
@@ -8,42 +13,61 @@ class Emergency extends StatefulWidget {
 }
 
 class _EmergencyState extends State<Emergency> {
-  var divHeight,divWidth;
-  TextEditingController situation=TextEditingController();
+  late double divHeight, divWidth;
+  TextEditingController situation = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    divHeight=MediaQuery.of(context).size.height;
-    divWidth=MediaQuery.of(context).size.width;
+    divHeight = MediaQuery.of(context).size.height;
+    divWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white, // Change the drawer icon color to white
+      appBar: appBarWidget(title: emergency, fontsize: divHeight * 0.02),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  textWidget(
+                      text: "Situation  :",
+                      fontWeight: FontWeight.w500,
+                      fontsize: divHeight * 0.022,
+                      fontColor: Colors.black),
+                  const Spacer(),
+                  SizedBox(
+                      width: divWidth * 0.6,
+                      child: textFieldWidget(
+                        hintText: "",
+                        control: situation,
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: divHeight * 0.02,
+              ),
+              buttonWidget(
+                  buttonName: "Send to parents and school",
+                  buttonWidth: divWidth * 0.7,
+                  buttonColor: Colors.red,
+                  fontSize: divHeight * 0.017,
+                  fontweight: FontWeight.w500,
+                  fontColor: Colors.white),
+              SizedBox(
+                height: divHeight * 0.02,
+              ),
+              buttonWidget(
+                  buttonName: " send only school",
+                  buttonWidth: divWidth * 0.4,
+                  buttonColor: Colors.red,
+                  fontSize: divHeight * 0.017,
+                  fontweight: FontWeight.w500,
+                  fontColor: Colors.white)
+            ],
+          ),
         ),
-        backgroundColor: Color(0xFF00A0E3),
-        centerTitle: true,
-        title: TextWidget(text: 'Emergency', fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white),
-
       ),
-      body: SingleChildScrollView(child: Padding(padding: EdgeInsets.all(15),child:Column(
-
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(children: [
-
-            TextWidget(text: "Situation  :", fontWeight: FontWeight.w500, fontsize: divHeight*0.022, fontColor: Colors.black),
-            Spacer(),
-            Container(
-                width: divWidth*0.6,
-                child:
-                TextFieldWidget(hintText: "", control: situation,)),
-
-          ],),
-          SizedBox(height: divHeight*0.02,),
-          ButtonWidget(buttonName: "Send to parents and school", buttonWidth: divWidth*0.7, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white),
-          SizedBox(height: divHeight*0.02,),
-          ButtonWidget(buttonName: " send only school", buttonWidth: divWidth*0.4, buttonColor: Colors.red, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: Colors.white)
-        ],
-      ),),),
     );
   }
 }
