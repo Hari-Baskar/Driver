@@ -195,7 +195,7 @@ BoxWidget({
               decoration: BoxDecoration(
                color: Colors.white,
                   //Color(0xFF00A0E3)
-                border: Border.all(color:Colors.black ,width: 1.5),
+                //border: Border.all(color:Colors.black ,width: 1.5),
                 borderRadius: BorderRadius.circular(20)
               ),
 
