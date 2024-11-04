@@ -1,5 +1,6 @@
 import 'package:driver/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -57,7 +58,7 @@ class _HomeState extends State<Home> {
                 title: TextWidget(text: "Vechile Id", fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white),
                 subtitle: TextWidget(text: "Praveen", fontWeight: FontWeight.w300, fontsize: divHeight*0.017, fontColor: Colors.white),
               ),
-            )
+            ),
 
           ],
         ),
@@ -150,17 +151,31 @@ body: SingleChildScrollView(child:Padding(padding: EdgeInsets.all(15),child: Col
       TextFieldWidget(hintText: "Enter the Amount", control: amount,prefix: Text("₹ "),textfieldType: TextInputType.number,)),
 
     ],),
-
-     Visibility(
-         visible: ticket!= null && amount.text.isNotEmpty,
-         child:Padding(padding:EdgeInsets.all(10), child: InkWell(
+SizedBox(height: divHeight*0.02,),
+      InkWell(
            onTap: (){
-             print(amount.text.isNotEmpty);
+             if (ticket==null){
+               Message(context: context, Content: "Please Select the Ticket", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
+
+             }
+             else if(amount.text.isEmpty){
+
+                 Message(context: context, Content: "Please Enter the Amount", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
+
+               }
+             else {
+               Message(context: context,
+                   Content: "Ticket Raised Successfully",
+                   fontSize: divHeight * 0.017,
+                   fontColor: Colors.white,
+                   BarColor: Colors.green);
+             }
+            // print(amount.text.isNotEmpty);
            },
        child: ButtonWidget(buttonName: "Raise Ticket", buttonWidth: divWidth*0.5, buttonColor: Color(0xFF00A0E3), fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
-     ))),
+     ),
     SizedBox(height: divHeight*0.02,),
-    TicketBox()
+    TicketBox(TicketName: ticket.toString(), Amount: amount.text)
   ],
 ),),
 )
@@ -220,7 +235,12 @@ BoxWidget({
       ),
     );
 }
-TicketBox(){
+TicketBox({
+    required String TicketName,
+  required dynamic Amount,
+  
+}){
+    DateTime now=DateTime.now();
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius:  BorderRadius.circular(15)
@@ -239,10 +259,11 @@ TicketBox(){
               flex: 1,
               child: Column(
                mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                TextWidget(text: "Ticket Name ", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
-                TextWidget(text: "5000", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.green),
+                TextWidget(text: TicketName, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+                TextWidget(text:"₹ "+ Amount, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.green),
               ],
             ),
             ),
@@ -251,8 +272,8 @@ TicketBox(){
           child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextWidget(text: " 30/10/2024", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
-                TextWidget(text: "1.00 pm", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+                TextWidget(text: DateFormat("dd-mm-yyyy").format(now), fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+                TextWidget(text: DateFormat("hh:mm a").format(now), fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
               ],
             ),
         ),
@@ -271,5 +292,15 @@ TicketBox(){
         ),
 
     );
+}
+DrawerItems({
+    required Color IconColor,
+  required double IconSize,
+}){
+
+    return ListTile(
+      leading: Icon(Icons.notifications_none_rounded,color: IconColor,size: IconSize,),
+      title: TextWidget(text: " Notifications", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
+    )
 }
 }

@@ -113,3 +113,20 @@ ButtonWidget({required String buttonName,
 
     );
 }
+Message({
+  required BuildContext context,
+  required String Content,
+  required double fontSize,
+  required Color fontColor,
+  required Color BarColor,
+
+}) {
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+        backgroundColor:BarColor , // Custom background color
+        behavior: SnackBarBehavior.floating, // Float the snackbar
+        //margin: EdgeInsets.only(top: 50, left: 20, right: 20), // Position it at the top
+        duration: Duration(seconds: 3),
+        content: TextWidget(text: Content, fontWeight:FontWeight.w500, fontsize:fontSize , fontColor: fontColor))
+  );
+}

@@ -206,7 +206,7 @@ selected ?              Container(
       width: divWidth*0.447,
       decoration: BoxDecoration(
           color: Selected?   Color(0xFF00A0E3):Colors.transparent,
-          borderRadius: BorderRadius.circular(10)
+          borderRadius: BorderRadius.circular(9)
       ),
       child: Center(
         child: TextWidget(text: title, fontWeight: FontWeight.w700, fontsize: divHeight*0.017, fontColor:Selected? Colors.white:Colors.black ),
