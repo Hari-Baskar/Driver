@@ -4,16 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 textFieldWidget({
   required String hintText,
   required  dynamic control,
-  OnClick,
+    OnClick,
   bool? readonly,
   double? size,
   dynamic? suffixIcon,
   dynamic? prefix,
   dynamic? prefixIcon,
   TextInputType? textfieldType,
-  void Function(dynamic?)? onsubmit,
-}) async => TextField(
-  onSubmitted: onsubmit,
+
+}) => TextField(
+
   keyboardType: textfieldType,
   onTap: OnClick,
   controller: control,

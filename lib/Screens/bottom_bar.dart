@@ -1,3 +1,4 @@
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Screens/emergency.dart';
 import 'package:driver/Screens/history.dart';
@@ -40,7 +41,7 @@ class _BottomBarState extends State< BottomBar> {
         BottomNavigationBarItem(icon: Icon(Icons.history),  label: history),
 
       ],
-      selectedItemColor: Color(0xFF00A0E3),
+      selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
       ),

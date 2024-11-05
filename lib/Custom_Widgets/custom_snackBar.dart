@@ -8,8 +8,7 @@ message({
   required Color fontColor,
   required Color BarColor,
 
-}) {
-  return ScaffoldMessenger.of(context).showSnackBar(
+}) => ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           backgroundColor:BarColor , // Custom background color
           behavior: SnackBarBehavior.floating, // Float the snackbar
@@ -17,4 +16,3 @@ message({
           duration: const Duration(seconds: 3),
           content: textWidget(text: Content, fontWeight:FontWeight.w500, fontsize:fontSize , fontColor: fontColor))
   );
-}

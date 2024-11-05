@@ -1,4 +1,5 @@
 
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
@@ -47,20 +48,20 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
 
-            SizedBox(height: divHeight*0.04,child: Container(color:const Color(0xFF00A0E3) ,),),
+            SizedBox(height: divHeight*0.04,child: Container(color:primaryColor ,),),
          Container(
 
-              color: const Color(0xFF00A0E3),
+              color: primaryColor,
               child:ListTile(
-                leading: const CircleAvatar(backgroundColor: Colors.white,),
+                leading:  CircleAvatar(backgroundColor: secondaryColor,),
 
                 title: textWidget(text: "Vechile Id", fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white),
                 subtitle: textWidget(text: "Praveen", fontWeight: FontWeight.w300, fontsize: divHeight*0.017, fontColor: Colors.white),
               ),
             ),
-DrawerItems(title: "Notifications",icon:Icon(Icons.notifications_none_rounded,color: Colors.yellow,size: divHeight*0.04,)),
+drawerItems(title: "Notifications",icon:Icon(Icons.notifications_none_rounded,color: Colors.yellow,size: divHeight*0.04,)),
             Divider(height: divHeight*0.01,),
-            DrawerItems(title: "Logout",icon:Icon(Icons.logout,color: Colors.red,size: divHeight*0.04,)),
+            drawerItems(title: "Logout",icon:Icon(Icons.logout,color: Colors.red,size: divHeight*0.04,)),
             Divider(height: divHeight*0.01,),
           ],
         ),
@@ -103,7 +104,7 @@ body: SingleChildScrollView(child:Padding(padding: const EdgeInsets.all(15),chil
           ],
           xValueMapper: (Map<String, double> data, _) => data['x']!,
           yValueMapper: (Map<String, double> data, _) => data['y']!,
-          color: Colors.blue,
+          color: primaryColor,
           width: 2,
         ),
       ],
@@ -119,8 +120,8 @@ body: SingleChildScrollView(child:Padding(padding: const EdgeInsets.all(15),chil
     SizedBox(height: divHeight*0.01,),
     Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [BoxWidget(Img: 'Assets/petrolCan.png', title: 'Petrol Allowance', Amount: '2000', Imgcolor: Colors.red),
-      BoxWidget(Img: 'Assets/vechileService.png', title: 'Vechile Service', Amount: '2000',Imgcolor: Colors.brown)
+        children: [boxWidget(Img: 'Assets/petrolCan.png', title: 'Petrol Allowance', Amount: '2000', Imgcolor: Colors.red),
+      boxWidget(Img: 'Assets/vechileService.png', title: 'Vechile Service', Amount: '2000',Imgcolor: Colors.brown)
     ]
     ),
     SizedBox(height: divHeight*0.04,),
@@ -128,7 +129,7 @@ body: SingleChildScrollView(child:Padding(padding: const EdgeInsets.all(15),chil
       Image.asset("Assets/ticket.png",height: divHeight*0.02,color: Colors.green,),
       SizedBox(width: divWidth*0.015,),
       textWidget(text: "Raise Ticket", fontWeight: FontWeight.bold, fontsize: divHeight*0.019
-          , fontColor: Colors.black),const Spacer(),
+          , fontColor: borderColor),const Spacer(),
 
     ],),
     SizedBox(height: divHeight*0.01,),
@@ -157,33 +158,33 @@ SizedBox(height: divHeight*0.02,),
       InkWell(
            onTap: (){
              if (ticket==null){
-               message(context: context, Content: "Please Select the Ticket", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
+               message(context: context, Content: "Please Select the Ticket", fontSize: divHeight*0.017, fontColor: secondaryColor, BarColor: Colors.red);
 
              }
              else if(amount.text.isEmpty){
 
-                 message(context: context, Content: "Please Enter the Amount", fontSize: divHeight*0.017, fontColor: Colors.white, BarColor: Colors.red);
+                 message(context: context, Content: "Please Enter the Amount", fontSize: divHeight*0.017, fontColor: secondaryColor, BarColor: Colors.red);
 
                }
              else {
                message(context: context,
                    Content: "Ticket Raised Successfully",
                    fontSize: divHeight * 0.017,
-                   fontColor: Colors.white,
+                   fontColor: secondaryColor,
                    BarColor: Colors.green);
              }
             // print(amount.text.isNotEmpty);
            },
-       child: buttonWidget(buttonName: "Raise Ticket", buttonWidth: divWidth*0.5, buttonColor: const Color(0xFF00A0E3), fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: Colors.white),
+       child: buttonWidget(buttonName: "Raise Ticket", buttonWidth: divWidth*0.5, buttonColor: primaryColor, fontSize: divHeight*0.017, fontweight: FontWeight.bold, fontColor: secondaryColor),
      ),
     SizedBox(height: divHeight*0.02,),
-    TicketBox(TicketName: ticket.toString(), Amount: amount.text)
+    ticketBox(TicketName: ticket.toString(), Amount: amount.text)
   ],
 ),),
 )
     );
   }
-BoxWidget({
+Card boxWidget({
     required String Img,
   required String title,
   required String Amount,
@@ -199,8 +200,8 @@ BoxWidget({
         height: divHeight*0.2,
         width: divWidth*0.43,
         decoration: BoxDecoration(
-          color: const Color(0xFF00A0E3) ,
-            border: Border.all(color: const Color(0xFF00A0E3) ,width: 1),
+          color: primaryColor ,
+            border: Border.all(color: primaryColor ,width: 1),
            borderRadius: BorderRadius.circular(21)
         ),
         child: Column(
@@ -210,7 +211,7 @@ BoxWidget({
               width:divWidth*0.43 ,
 
               decoration: BoxDecoration(
-               color: Colors.white,
+               color: secondaryColor,
                   //Color(0xFF00A0E3)
                 //border: Border.all(color:Colors.black ,width: 1.5),
                 borderRadius: BorderRadius.circular(20)
@@ -222,14 +223,14 @@ BoxWidget({
                   children: [
 
                     Image.asset(Img,height: divHeight*0.04,color: Imgcolor,),
-                    textWidget(text: title, fontWeight: FontWeight.bold, fontsize: divHeight*0.016, fontColor: Colors.black),
+                    textWidget(text: title, fontWeight: FontWeight.bold, fontsize: divHeight*0.016, fontColor: borderColor),
                   ],
                 ),
 
 
             ),
             const Spacer(),
-            textWidget(text:"₹ "+Amount, fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: Colors.white,),
+            textWidget(text:"₹ "+Amount, fontWeight: FontWeight.bold, fontsize: divHeight*0.02, fontColor: secondaryColor,),
             const Spacer(),
           ],
         ),
@@ -237,7 +238,7 @@ BoxWidget({
       ),
     );
 }
-TicketBox({
+ Card ticketBox({
     required String TicketName,
   required dynamic Amount,
   
@@ -258,7 +259,7 @@ TicketBox({
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Expanded(
-              flex: 1,
+
               child: Column(
                mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -270,7 +271,7 @@ TicketBox({
             ),
             ),
         Expanded(
-          flex: 1,
+
           child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -280,7 +281,7 @@ TicketBox({
             ),
         ),
   Expanded(
-  flex: 1,
+
   child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -295,7 +296,7 @@ TicketBox({
 
     );
 }
-DrawerItems({
+ListTile drawerItems({
 
   required String title,
   required  Icon icon
@@ -303,8 +304,8 @@ DrawerItems({
 
     return ListTile(
       leading: icon,
-      title: textWidget(text: title, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
-      trailing: Icon(Icons.chevron_right,color: Colors.black,size: divHeight*0.02 ,),
+      title: textWidget(text: title, fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: borderColor),
+      trailing: Icon(Icons.chevron_right,color: borderColor,size: divHeight*0.02 ,),
     );
 }
 

@@ -1,3 +1,4 @@
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
@@ -119,8 +120,8 @@ class _PassengersState extends State<Passengers> {
                 width: divWidth * 0.90,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(width: 1.0, color: const Color(0xFF00A0E3)),
-                    color: Colors.white),
+                    border: Border.all(width: 1.0, color: primaryColor),
+                    color: secondaryColor),
                 child: Row(
                   children: [
                     InkWell(
@@ -209,17 +210,17 @@ class _PassengersState extends State<Passengers> {
                         fontColor: Colors.green),
                     const Spacer(),
                     FloatingActionButton.extended(
-                        backgroundColor: const Color(0xFF00A0E3),
+                        backgroundColor: primaryColor,
                         onPressed: () {},
                         label: InkWell(
                             onTap: () {},
                             child: buttonWidget(
                                 buttonName: "Submit All",
                                 buttonWidth: divWidth * 0.4,
-                                buttonColor: const Color(0xFF00A0E3),
+                                buttonColor: primaryColor,
                                 fontSize: divHeight * 0.017,
                                 fontweight: FontWeight.w500,
-                                fontColor: Colors.white)))
+                                fontColor: secondaryColor)))
                   ]))
           : null,
     );
@@ -249,7 +250,7 @@ class _PassengersState extends State<Passengers> {
                     text: studentName,
                     fontWeight: FontWeight.w500,
                     fontsize: divHeight * 0.017,
-                    fontColor: Colors.black),
+                    fontColor: borderColor),
                 textWidget(
                     text: classAndSec,
                     fontWeight: FontWeight.w500,
@@ -267,7 +268,7 @@ class _PassengersState extends State<Passengers> {
                     text: studentId,
                     fontWeight: FontWeight.w500,
                     fontsize: divHeight * 0.017,
-                    fontColor: const Color(0xFF00A0E3)),
+                    fontColor: primaryColor),
                 //TextWidget(text: "1.00 pm", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
               ],
             ),
@@ -329,14 +330,14 @@ class _PassengersState extends State<Passengers> {
       height: divHeight * 0.06,
       width: divWidth * 0.447,
       decoration: BoxDecoration(
-          color: Selected ? const Color(0xFF00A0E3) : Colors.transparent,
+          color: Selected ? primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(9)),
       child: Center(
         child: textWidget(
             text: title,
             fontWeight: FontWeight.w700,
             fontsize: divHeight * 0.017,
-            fontColor: Selected ? Colors.white : Colors.black),
+            fontColor: Selected ? secondaryColor : borderColor),
       ),
     );
   }

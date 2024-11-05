@@ -1,3 +1,4 @@
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,7 +64,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
                       text: "Speed Limit",
                       fontWeight: FontWeight.bold,
                       fontsize: divHeight * 0.019,
-                      fontColor: Colors.black),
+                      fontColor: secondaryColor),
                 ],
               ),
               SizedBox(
@@ -89,7 +90,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
                       ],
                       xValueMapper: (Map<String, double> data, _) => data['x']!,
                       yValueMapper: (Map<String, double> data, _) => data['y']!,
-                      color: Colors.blue,
+                      color: primaryColor,
                       width: 2,
                     ),
                   ],
@@ -162,7 +163,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
               SizedBox(
                 height: divHeight * 0.01,
               ),
-              StudentIdBox(
+              studentIdBox(
                   studentName: "Praveen",
                   classAndSec: "X-C",
                   studentId: "Sec21it053",
@@ -170,7 +171,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
               SizedBox(
                 height: divHeight * 0.015,
               ),
-              StudentIdBox(
+              studentIdBox(
                   studentName: "Baskar",
                   classAndSec: "X-C",
                   studentId: "Sec21it053",
@@ -182,7 +183,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
     );
   }
 
-  ticketBox() {
+  Card ticketBox() {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
@@ -245,7 +246,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
     );
   }
 
-  StudentIdBox({
+  Container studentIdBox({
     required String studentName,
     required String classAndSec,
     required String studentId,
@@ -270,7 +271,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
               text: studentId,
               fontWeight: FontWeight.w500,
               fontsize: divHeight * 0.017,
-              fontColor: const Color(0xFF00A0E3)),
+              fontColor: primaryColor),
           //TextWidget(text: "1.00 pm", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
           textWidget(
               text: classAndSec,

@@ -1,3 +1,4 @@
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
@@ -36,8 +37,8 @@ class _RoutePathState extends State<RoutePath> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border:
-                        Border.all(width: 1.0, color: const Color(0xFF00A0E3)),
-                    color: Colors.white),
+                        Border.all(width: 1.0, color: primaryColor),
+                    color: secondaryColor),
                 child: Row(
                   children: [
                     InkWell(
@@ -92,14 +93,14 @@ class _RoutePathState extends State<RoutePath> {
                       buttonColor: Colors.red,
                       fontSize: divHeight * 0.017,
                       fontweight: FontWeight.w500,
-                      fontColor: Colors.white),
+                      fontColor: secondaryColor),
                   buttonWidget(
                       buttonName: "Show Route",
                       buttonWidth: divWidth * 0.4,
-                      buttonColor: const Color(0xFF00A0E3),
+                      buttonColor: primaryColor,
                       fontSize: divHeight * 0.017,
                       fontweight: FontWeight.w500,
-                      fontColor: Colors.white),
+                      fontColor: secondaryColor),
                 ],
               )
             ],
@@ -109,19 +110,19 @@ class _RoutePathState extends State<RoutePath> {
     );
   }
 
-  switchButtonWidget({required String title, required bool Selected}) {
+  Container switchButtonWidget({required String title, required bool Selected}) {
     return Container(
       height: divHeight * 0.08,
       width: divWidth * 0.447,
       decoration: BoxDecoration(
-          color: Selected ? const Color(0xFF00A0E3) : Colors.transparent,
+          color: Selected ? primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(10)),
       child: Center(
         child: textWidget(
             text: title,
             fontWeight: FontWeight.w700,
             fontsize: divHeight * 0.017,
-            fontColor: Selected ? Colors.white : Colors.black),
+            fontColor: Selected ? secondaryColor : borderColor),
       ),
     );
   }

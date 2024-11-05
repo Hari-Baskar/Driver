@@ -7,7 +7,7 @@ textWidget({
   required double fontsize,
   required Color fontColor,
   Spacing,
-}) async => Text(text,style: GoogleFonts.poppins(
+})  => Text(text,style: GoogleFonts.poppins(
   fontSize: fontsize,
   color: fontColor,
   fontWeight: fontWeight,

@@ -1,3 +1,4 @@
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
@@ -53,7 +54,7 @@ class _EmergencyState extends State<Emergency> {
                   buttonColor: Colors.red,
                   fontSize: divHeight * 0.017,
                   fontweight: FontWeight.w500,
-                  fontColor: Colors.white),
+                  fontColor: secondaryColor),
               SizedBox(
                 height: divHeight * 0.02,
               ),
@@ -63,7 +64,7 @@ class _EmergencyState extends State<Emergency> {
                   buttonColor: Colors.red,
                   fontSize: divHeight * 0.017,
                   fontweight: FontWeight.w500,
-                  fontColor: Colors.white)
+                  fontColor: secondaryColor)
             ],
           ),
         ),

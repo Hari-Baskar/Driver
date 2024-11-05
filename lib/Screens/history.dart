@@ -1,3 +1,4 @@
+import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
 import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
@@ -82,7 +83,7 @@ class _HistoryState extends State<History> {
                   buttonColor: Colors.red,
                   fontSize: divHeight * 0.017,
                   fontweight: FontWeight.w500,
-                  fontColor: Colors.white),
+                  fontColor: secondaryColor),
               SizedBox(
                 height: divHeight * 0.02,
               ),
@@ -92,8 +93,8 @@ class _HistoryState extends State<History> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border:
-                        Border.all(width: 1.0, color: const Color(0xFF00A0E3)),
-                    color: Colors.white),
+                        Border.all(width: 1.0, color: primaryColor),
+                    color: secondaryColor),
                 child: Row(
                   children: [
                     InkWell(
@@ -137,12 +138,12 @@ class _HistoryState extends State<History> {
     );
   }
 
-  switchButtonWidget({required String title, required bool Selected}) async =>
+  Container  switchButtonWidget({required String title, required bool Selected})   =>
       Container(
         height: divHeight * 0.08,
         width: divWidth * 0.447,
         decoration: BoxDecoration(
-            color: Selected ? const Color(0xFF00A0E3) : Colors.transparent,
+            color: Selected ? primaryColor : Colors.transparent,
             borderRadius: BorderRadius.circular(10)),
         child: Center(
           child: textWidget(
@@ -153,7 +154,7 @@ class _HistoryState extends State<History> {
         ),
       );
 
-  viewBox({required String date}) {
+  Container  viewBox({required String date}) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -176,7 +177,7 @@ class _HistoryState extends State<History> {
                   text: 'View Details',
                   fontWeight: FontWeight.w500,
                   fontsize: divHeight * 0.017,
-                  fontColor: const Color(0xFF00A0E3)))),
+                  fontColor: primaryColor))),
     );
   }
 }
