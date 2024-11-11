@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 appBarWidget({
   required String title,
   required double fontsize,
+  dynamic? actions
+
 })  =>
 
     AppBar(
-      iconTheme:  IconThemeData(
+      iconTheme:  const IconThemeData(
         color: secondaryColor, // Change the drawer icon color to white
       ),
       backgroundColor: primaryColor,
       centerTitle: true,
       title: textWidget(text: title, fontWeight: FontWeight.bold, fontsize: fontsize, fontColor: secondaryColor),
-
+      actions: actions
     );
 
 //show to parents

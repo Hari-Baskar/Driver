@@ -22,6 +22,7 @@ class _EmergencyState extends State<Emergency> {
     divHeight = MediaQuery.of(context).size.height;
     divWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: appBarWidget(title: emergency, fontsize: divHeight * 0.02),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,7 +52,7 @@ class _EmergencyState extends State<Emergency> {
               buttonWidget(
                   buttonName: "Send to parents and school",
                   buttonWidth: divWidth * 0.7,
-                  buttonColor: Colors.red,
+                  buttonColor: absentColor,
                   fontSize: divHeight * 0.017,
                   fontweight: FontWeight.w500,
                   fontColor: secondaryColor),
@@ -61,7 +62,7 @@ class _EmergencyState extends State<Emergency> {
               buttonWidget(
                   buttonName: " send only school",
                   buttonWidth: divWidth * 0.4,
-                  buttonColor: Colors.red,
+                  buttonColor: absentColor,
                   fontSize: divHeight * 0.017,
                   fontweight: FontWeight.w500,
                   fontColor: secondaryColor)

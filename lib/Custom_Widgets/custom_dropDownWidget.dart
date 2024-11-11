@@ -7,7 +7,7 @@ dropDownWidget({required List<dynamic>Items,
   required String hintText,
   required Value,
   required void Function() OnClear,
-})  => DropdownButtonFormField(
+}) => DropdownButtonFormField(
   hint: Align(
     alignment: Alignment.center,
     child: Text(

@@ -4,6 +4,7 @@ import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
 import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
+import 'package:driver/Screens/show_route.dart';
 import 'package:flutter/material.dart';
 
 class RoutePath extends StatefulWidget {
@@ -25,6 +26,7 @@ class _RoutePathState extends State<RoutePath> {
     divWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: appBarWidget(title: route, fontsize: divHeight * 0.02),
       body: SingleChildScrollView(
         child: Padding(
@@ -87,13 +89,18 @@ class _RoutePathState extends State<RoutePath> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buttonWidget(
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowRoute()));
+                    },
+                    child: buttonWidget(
                       buttonName: "Edit Route",
                       buttonWidth: divWidth * 0.4,
                       buttonColor: Colors.red,
                       fontSize: divHeight * 0.017,
                       fontweight: FontWeight.w500,
                       fontColor: secondaryColor),
+                  ),
                   buttonWidget(
                       buttonName: "Show Route",
                       buttonWidth: divWidth * 0.4,

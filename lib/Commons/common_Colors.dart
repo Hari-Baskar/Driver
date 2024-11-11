@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
-Color primaryColor=Color(0xFF00A0E3);
-Color borderColor=Colors.black;
-Color secondaryColor=Colors.white;
+const Color primaryColor=Color(0xFF00A0E3);
+const Color borderColor=Colors.black;
+const Color secondaryColor=Colors.white;
+const Color presentColor=Colors.green;
+const Color absentColor=Colors.red;
