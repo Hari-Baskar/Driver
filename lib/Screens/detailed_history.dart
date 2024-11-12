@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:driver/Services/db_Service.dart';
-import 'package:driver/userManagement/loading.dart';
+import 'package:driver/Custom_Widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +25,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
   List<dynamic> pickupPassengersList=[];
   List<dynamic> dropPassengersList=[];
   List<dynamic> totalPassengerId=[];
+  int ticketlenght=0;
 
   documentDetails()async{
     DocumentSnapshot documentSnapshot=await dbService.getDocumentDetails(uid: widget.uid, docId: widget.docId);
@@ -39,6 +40,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
      ticket=ticketList!=null ? ticketList:[];
      pickupPassengersList=pickupList!=null ? pickupList : [];
      dropPassengersList=dropList!=null ? dropList:[];
+     ticketlenght=ticket.length;
     });
 
   }
@@ -114,11 +116,12 @@ String? userId;
               SizedBox(
                 height: divHeight * 0.01,
               ),
-              ListView.builder(
+              ticketlenght>0 ? ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context,index){
-                  return ticketBox(ticketDetails: data!["ticket"][index]);
-                },itemCount: data!["ticket"].length,),
+                  return ticketBox(ticketDetails: ticket[index]);
+                },itemCount: ticket.length,):
+              textWidget(text: "No Tickets were raised", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: absentColor),
               SizedBox(
                 height: divHeight * 0.04,
               ),
@@ -275,7 +278,10 @@ String? userId;
 
 }){
    int noOfPassengers=passengersList.length;
-    return Column(
+    return noOfPassengers<1?
+
+    textWidget(text: "No trip has taken", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: absentColor):
+    Column(
       children: [
         Row(
           children: [
@@ -378,9 +384,12 @@ String? userId;
             shrinkWrap: true,
 
             itemBuilder: (context, index) {
+
               Map<String,dynamic> passdet=documents[index].data() as Map<String,dynamic>;
-            String currentPassengerId=passdet["docId"];
-            bool present=passengersList.any((dataItem) => dataItem["studentId"] == currentPassengerId);
+
+            String currentPassengerId=documents[index].id;
+            bool present=passengersList.any((dataItem) => dataItem["docId"] == currentPassengerId);
+
 
               return studentIdBox(passengerDetails:passdet,checked:present );
             }, itemCount: totalPassengerCount,)

@@ -6,7 +6,7 @@ import 'package:driver/Custom_Widgets/custom_appBar.dart';
 import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:driver/Services/db_Service.dart';
-import 'package:driver/userManagement/loading.dart';
+import 'package:driver/Custom_Widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -405,7 +405,7 @@ class _PassengersState extends State<Passengers> {
                               uid: uid,
                               uploadPassengerDetails: passengerDetails,
                               uploadTripType: tripType!);
-                          print(selected);
+
                         },
                       ),
                     checked
@@ -425,7 +425,7 @@ class _PassengersState extends State<Passengers> {
                             },
                             icon: const Icon(
                               Icons.delete_outline_outlined,
-                              color: Colors.redAccent,
+                              color: absentColor,
                             ))
                         : const Text(""),
                   ],
@@ -463,7 +463,7 @@ class _PassengersState extends State<Passengers> {
           });
         },
         child: Chip(
-            backgroundColor: chipName == "PickUp" ? Colors.green : Colors.red,
+            backgroundColor: chipName == "PickUp" ? presentColor: absentColor,
             label: textWidget(
                 text: chipName,
                 fontWeight: FontWeight.w500,

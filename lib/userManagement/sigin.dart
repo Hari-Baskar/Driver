@@ -73,7 +73,7 @@ class _SigninState extends State<Signin> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const BottomBar()));
     }
     on FirebaseException catch (e){
-      message(context: context, Content: e.code.toString(), fontSize: divHeight*0.017, fontColor:secondaryColor , BarColor: Colors.red);
+      message(context: context, Content: e.code.toString(), fontSize: divHeight*0.017, fontColor:secondaryColor , BarColor: absentColor);
     }
   }
 }

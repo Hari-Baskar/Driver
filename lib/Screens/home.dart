@@ -12,7 +12,7 @@ import 'package:driver/Pojo/vechileDetails_Pojo.dart';
 import 'package:driver/Services/auth_Service.dart';
 import 'package:driver/Services/db_Service.dart';
 import 'package:driver/userManagement/check_Auth.dart';
-import 'package:driver/userManagement/loading.dart';
+import 'package:driver/Custom_Widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -53,6 +53,7 @@ AuthService authService=AuthService();
   Widget build(BuildContext context) {
     divWidth=MediaQuery.of(context).size.width;
     divHeight=MediaQuery.of(context).size.height;
+
     final user=Provider.of<User?>(context);
     String userId=user!.uid;
 

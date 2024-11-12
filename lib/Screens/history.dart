@@ -7,7 +7,7 @@ import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:driver/Screens/detailed_history.dart';
 import 'package:driver/Services/db_Service.dart';
-import 'package:driver/userManagement/loading.dart';
+import 'package:driver/Custom_Widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
