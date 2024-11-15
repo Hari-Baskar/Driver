@@ -318,21 +318,21 @@ class _PassengersState extends State<Passengers> {
                               SizedBox(
                                 height: divHeight * 0.1,
                               ),
-                              selected
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                          InkWell(
-                                              onTap: () {},
-                                              child: buttonWidget(
-                                                  buttonName: "Submit All",
-                                                  buttonWidth: divWidth * 0.4,
-                                                  buttonColor: primaryColor,
-                                                  fontSize: divHeight * 0.017,
-                                                  fontweight: FontWeight.w500,
-                                                  fontColor: secondaryColor))
-                                        ])
-                                  : SizedBox(),
+                              // selected
+                              //     ? Row(
+                              //         mainAxisAlignment: MainAxisAlignment.end,
+                              //         children: [
+                              //             InkWell(
+                              //                 onTap: () {},
+                              //                 child: buttonWidget(
+                              //                     buttonName: "Submit All",
+                              //                     buttonWidth: divWidth * 0.4,
+                              //                     buttonColor: primaryColor,
+                              //                     fontSize: divHeight * 0.017,
+                              //                     fontweight: FontWeight.w500,
+                              //                     fontColor: secondaryColor))
+                              //           ])
+                              //     : SizedBox(),
                             ],
                           ),
                         ),

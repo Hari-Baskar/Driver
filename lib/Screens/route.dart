@@ -1,4 +1,7 @@
-
+import 'package:driver/Commons/common_Colors.dart';
+import 'package:driver/Custom_Widgets/custom_appBar.dart';
+import 'package:driver/Custom_Widgets/custom_snackBar.dart';
+import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:driver/Services/locationService.dart';
 import 'package:flutter/material.dart';
 
@@ -12,38 +15,33 @@ class RoutePath extends StatefulWidget {
 }
 
 class _RoutePathState extends State<RoutePath> {
-
   bool _isTracking = false;
   double _currentSpeed = 0.0;
 
-  // Toggles the tracking state
   void _toggleTracking() async {
     bool hasPermission = await LocationService().requestLocationPermission();
 
     if (!hasPermission) {
-      // Handle permission denied
       print("Location permission denied!");
       return;
     }
 
     bool serviceEnabled = await LocationService().isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Handle location service disabled
+      //message(context: context, Content: "Location services are disabled.", fontSize: divHeight*0.17, fontColor: secondaryColor, BarColor: absentColor);
       print("Location services are disabled.");
       return;
     }
 
     if (_isTracking) {
-      // Stop tracking
       LocationService().stopLocationUpdates();
-    } else {
-      // Start tracking
+    }
+    else {
       LocationService().startLocationUpdates(context);
 
-      // Optionally, listen to the position updates and update speed in the UI
       Geolocator.getPositionStream().listen((position) {
         setState(() {
-          _currentSpeed = position.speed * 3.6;  // Convert m/s to km/h
+          _currentSpeed = position.speed * 3.6;
         });
       });
     }
@@ -53,29 +51,43 @@ class _RoutePathState extends State<RoutePath> {
     });
   }
 
+  late double divHeight, divWidth;
+
   @override
   Widget build(BuildContext context) {
+    divHeight = MediaQuery.of(context).size.height;
+    divWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("Location Tracker")),
+      appBar:
+          appBarWidget(title: "Location Tracker", fontsize: divHeight * 0.02),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             ElevatedButton(
-              onPressed: _toggleTracking,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _isTracking ? Colors.red : Colors.green,
-              ),
-              child: Text(_isTracking ? "Stop Tracking" : "Start Tracking"),
-            ),
-            SizedBox(height: 20),
-            Text("Current Speed: ${_currentSpeed.toStringAsFixed(2)} km/h"),
+                onPressed: _toggleTracking,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _isTracking ? absentColor : presentColor,
+                ),
+                child: textWidget(
+                    text: _isTracking ? "Stop Tracking" : "Start Tracking",
+                    fontWeight: FontWeight.w500,
+                    fontsize: divHeight * 0.017,
+                    fontColor: secondaryColor)),
+            SizedBox(height: divHeight * 0.01),
+            textWidget(
+                text: "Current Speed: ${_currentSpeed.toStringAsFixed(2)} km/h",
+                fontWeight: FontWeight.w500,
+                fontsize: divHeight * 0.017,
+                fontColor: borderColor),
           ],
         ),
       ),
     );
   }
 }
+
 /*class RoutePath extends StatefulWidget {
   const RoutePath({super.key});
 
@@ -179,7 +191,7 @@ class _RoutePathState extends State<RoutePath> {
   }
 }
 */
- /* late double divHeight, divWidth;
+/* late double divHeight, divWidth;
 
   TextEditingController schoolLocation = TextEditingController();
   TextEditingController LastDropLocation = TextEditingController();
