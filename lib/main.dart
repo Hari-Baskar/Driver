@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User?>.value(
         value: AuthService().UserStream,
     initialData: null,
-    child:MaterialApp(
-      home:  CheckAuth(),
+    child:const MaterialApp(
+      home:CheckAuth(),
     ));
   }
 }

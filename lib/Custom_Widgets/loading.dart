@@ -7,6 +7,6 @@ Loading() {
       child: textWidget(
           text: "Loading",
           fontWeight: FontWeight.bold,
-          fontColor: borderColor,
+          fontColor: black,
           fontsize: 20));
 }

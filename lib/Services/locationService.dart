@@ -19,7 +19,6 @@ class LocationService {
   void startLocationUpdates(BuildContext context) {
     final User? user = Provider.of<User?>(context, listen: false);
     if (user == null) {
-      print("No user is logged in.");
       return;
     }
 

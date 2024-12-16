@@ -25,7 +25,7 @@ class _SchoolDriverMapState extends State<SchoolDriverMap> {
   @override
   void initState() {
     super.initState();
-    _position = LatLng(37.7749, -122.4194); // Example: Default position (San Francisco)
+    _position = const LatLng(37.7749, -122.4194); // Example: Default position (San Francisco)
     _nearestDropLocation = "Fetching nearest drop location...";
   }
 
@@ -92,7 +92,7 @@ class _SchoolDriverMapState extends State<SchoolDriverMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("School Driver Map"),
+        title: const Text("School Driver Map"),
       ),
       body: Column(
         children: [
@@ -100,12 +100,12 @@ class _SchoolDriverMapState extends State<SchoolDriverMap> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: _getCurrentLocation,
-              child: Text("Get Current Location"),
+              child: const Text("Get Current Location"),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           if (_isLocationFetched)
-            Text(_nearestDropLocation, style: TextStyle(fontSize: 18)),
+            Text(_nearestDropLocation, style: const TextStyle(fontSize: 18)),
           Expanded(
             child: GoogleMap(
               onMapCreated: _onMapCreated,
@@ -115,9 +115,9 @@ class _SchoolDriverMapState extends State<SchoolDriverMap> {
               ),
               markers: {
                 Marker(
-                  markerId: MarkerId('dropLocation'),
+                  markerId: const MarkerId('dropLocation'),
                   position: _position,
-                  infoWindow: InfoWindow(title: 'Drop Location'),
+                  infoWindow: const InfoWindow(title: 'Drop Location'),
                 ),
               },
             ),

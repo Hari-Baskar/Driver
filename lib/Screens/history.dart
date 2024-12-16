@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Commons/constant_strings.dart';
-import 'package:driver/Custom_Widgets/custom_Button.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
 import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
@@ -9,9 +8,7 @@ import 'package:driver/Screens/detailed_history.dart';
 import 'package:driver/Services/db_Service.dart';
 import 'package:driver/Custom_Widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +33,7 @@ class _HistoryState extends State<History> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
-        lastDate: DateTime(3000)) as DateTime?;
+        lastDate: DateTime(3000));
     if (picked != null) {
       setState(() {
         control.text = DateFormat("dd-MM-yyyy").format(picked);
@@ -53,7 +50,7 @@ class _HistoryState extends State<History> {
     final user = Provider.of<User?>(context);
     String userId = user!.uid;
     return Scaffold(
-      backgroundColor: secondaryColor,
+      backgroundColor: white,
       appBar: appBarWidget(title: history, fontsize: divHeight * 0.02),
       body: SingleChildScrollView(
         child: Padding(
@@ -107,22 +104,25 @@ class _HistoryState extends State<History> {
               ),
               select == "All"
                   ? SizedBox(
-                height: divHeight*0.9,
-                  child:StreamBuilder(
-                      stream: dbService.showHistory(uid: userId,historyType: "All"),
-                      builder: (context, snapshots) {
-                        if (!snapshots.hasData) return Loading();
+                      height: divHeight * 0.9,
+                      child: StreamBuilder(
+                          stream: dbService.showHistory(
+                              uid: userId, historyType: "All"),
+                          builder: (context, snapshots) {
+                            if (!snapshots.hasData) return Loading();
 
-                        List<DocumentSnapshot> documentSnapshots =snapshots.data!.docs;
+                            List<DocumentSnapshot> documentSnapshots =
+                                snapshots.data!.docs;
 
-                        return ListView.builder(
-                          shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return viewBox(
-                                  docId: documentSnapshots[index].id, userUid: userId);
-                            },
-                            itemCount: documentSnapshots.length);
-                      }))
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return viewBox(
+                                      docId: documentSnapshots[index].id,
+                                      userUid: userId);
+                                },
+                                itemCount: documentSnapshots.length);
+                          }))
                   : select == "Custom"
                       ? fromdate.text.isNotEmpty && todate.text.isNotEmpty
                           ? StreamBuilder(
@@ -139,7 +139,8 @@ class _HistoryState extends State<History> {
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       return viewBox(
-                                          docId: documentSnapshots[index].id, userUid: userId);
+                                          docId: documentSnapshots[index].id,
+                                          userUid: userId);
                                     },
                                     itemCount: documentSnapshots.length);
                               })
@@ -148,28 +149,31 @@ class _HistoryState extends State<History> {
                                   text: "Please Select From date and To date",
                                   fontWeight: FontWeight.w500,
                                   fontsize: divHeight * 0.017,
-                                  fontColor: borderColor))
+                                  fontColor: black))
                       : StreamBuilder(
                           stream: dbService.showHistoryOnlyGivenDate(
                               uid: userId,
-                              givenDate:select=="Today" ? date:yesterdayDate),
-
+                              givenDate:
+                                  select == "Today" ? date : yesterdayDate),
                           builder: (context, snapshots) {
                             if (!snapshots.hasData) return Loading();
-                            if(snapshots.hasData!={}) {
+                            if (snapshots.hasData != {}) {
                               Map<dynamic, dynamic> documentSnapshots =
-                              snapshots.data!;
+                                  snapshots.data!;
                               if (documentSnapshots.isNotEmpty) {
-                                return viewBox(docId: select=="Today" ? date:yesterdayDate, userUid: userId);
+                                return viewBox(
+                                    docId: select == "Today"
+                                        ? date
+                                        : yesterdayDate,
+                                    userUid: userId);
                               }
-
                             }
                             return Center(
                                 child: textWidget(
                                     text: "No Documents Found",
                                     fontWeight: FontWeight.w500,
                                     fontsize: divHeight * 0.017,
-                                    fontColor: borderColor));
+                                    fontColor: black));
                           }),
               SizedBox(
                 height: divHeight * 0.02,
@@ -181,25 +185,9 @@ class _HistoryState extends State<History> {
     );
   }
 
-  Container switchButtonWidget(
-          {required String title, required bool Selected}) =>
-      Container(
-        height: divHeight * 0.08,
-        width: divWidth * 0.447,
-        decoration: BoxDecoration(
-            color: Selected ? primaryColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(10)),
-        child: Center(
-          child: textWidget(
-              text: title,
-              fontWeight: FontWeight.w700,
-              fontsize: divHeight * 0.017,
-              fontColor: Selected ? Colors.white : Colors.black),
-        ),
-      );
-
-  viewBox({required String docId,
-  required String userUid,
+  viewBox({
+    required String docId,
+    required String userUid,
   }) {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 5),
@@ -219,14 +207,18 @@ class _HistoryState extends State<History> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailedHistory(docId: docId, uid: userUid,)));
+                            builder: (context) => DetailedHistory(
+                                  docId: docId,
+                                  uid: userUid,
+                                )));
                   },
                   child: textWidget(
                     text: 'View Details',
                     fontWeight: FontWeight.w500,
                     fontsize: divHeight * 0.017,
-                    fontColor: primaryColor,
+                    fontColor: blue,
                   ))),
+
         ));
   }
 
@@ -242,11 +234,11 @@ class _HistoryState extends State<History> {
           }
         },
         child: Chip(
-            backgroundColor: select == chipName ? primaryColor : secondaryColor,
+            backgroundColor: select == chipName ? blue : white,
             label: textWidget(
                 text: chipName,
                 fontWeight: FontWeight.w500,
                 fontsize: divHeight * 0.017,
-                fontColor: select == chipName ? secondaryColor : borderColor)),
+                fontColor: select == chipName ? white : black)),
       );
 }

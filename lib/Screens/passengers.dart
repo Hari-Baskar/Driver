@@ -22,7 +22,7 @@ class Passengers extends StatefulWidget {
 class _PassengersState extends State<Passengers> {
   bool checked = true;
   late double divHeight, divWidth;
-  DBService dbService = DBService();
+  DBService dbservice = DBService();
   bool selected = true;
   List passenger = [
     {
@@ -94,7 +94,7 @@ class _PassengersState extends State<Passengers> {
   String? tripType;
 
   final TripType = GetStorage();
-
+  List arrangedDroplocations=[];
   @override
   Widget build(BuildContext context) {
     divHeight = MediaQuery.of(context).size.height;
@@ -102,15 +102,95 @@ class _PassengersState extends State<Passengers> {
     final user = Provider.of<User?>(context);
     String userId = user!.uid;
     tripType = TripType.read("type");
-    return Scaffold(
-      backgroundColor: secondaryColor,
-      appBar: appBarWidget(
-        title: passengers,
-        fontsize: divHeight * 0.02,
-      ),
-      body: tripType == null
-          ? Center(
-              child: Column(
+    return StreamBuilder(stream:dbservice.getVechileDetails(uid: userId) , builder: (context,driverData)
+
+    {
+      if(!driverData.hasData) return Scaffold(body:Loading());
+      DocumentSnapshot? driverDocumentSnapshot=driverData!.data as DocumentSnapshot<Object?>?;
+      Map<String,dynamic> data=driverDocumentSnapshot!.data() as Map<String,dynamic>;
+      arrangedDroplocations=data["arrangedDroplocations"];
+      int doclen=data["droplocations"].length;
+      return data["droplocationArranged"]==false ? SafeArea(child: Scaffold(
+        backgroundColor: white,
+        body: SingleChildScrollView(child:Padding(padding:EdgeInsets.all(15), child:Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            data["route"]==null ? Column(
+                children:[
+                  SizedBox(height: divHeight*0.48,),
+                  Center(child:textWidget(
+                text: "Your route is not assigned ",
+                fontWeight: FontWeight.w900,
+                fontsize: divHeight * 0.02,
+                fontColor: black))]
+        ):Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+
+              children: [
+                textWidget(
+                    text: "Arrange the droplocation in order ,Start from the school",
+                    fontsize: divHeight * 0.02,
+                    fontColor: black, fontWeight: FontWeight.w500),
+                   SizedBox(height: divHeight*0.02,),
+                   ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:doclen ,
+                      itemBuilder: (context,index){
+                        String dropLocationName=data["droplocations"][index]['droplocationName'];
+                        bool arranged=arrangedDroplocations.contains(dropLocationName);
+                    return Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Container(
+                          decoration:  BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(width: 1.0, color: arranged ? green:red)
+                          ),
+                            child:ListTile(
+
+                      onTap: ()async{
+                        await dbservice.updateDroplocation( droplocation: dropLocationName, uid: userId);
+                      },
+                      title:  textWidget(
+                          text: dropLocationName,
+                          fontWeight: FontWeight.w900,
+                          fontsize: divHeight * 0.02,
+                          fontColor: black),
+                                leading: textWidget(
+                                    text: (arrangedDroplocations.indexOf(dropLocationName)+1).toString(),
+                                    fontWeight: FontWeight.w500,
+                                    fontsize: divHeight * 0.02,
+                                    fontColor: black),
+                      trailing:arranged ? InkWell(onTap: ()
+                        async{
+                          await dbservice.deleteDroplocation( droplocation: dropLocationName, uid: userId);
+
+                      },child: Icon(Icons.delete,color: red,),):SizedBox()
+                    )));
+                  }),
+                SizedBox(height: divHeight*0.02,),
+                InkWell(
+                  onTap: ()async{
+                    if(doclen==arrangedDroplocations.length){
+                      await dbservice.setArrangeDropLocationsToTrue(uid:userId);
+                    }
+                  },
+                  child:buttonWidget(buttonName: "Confirm Locations", buttonWidth: divWidth*0.90, buttonColor: green, fontSize: divHeight*0.017, fontweight: FontWeight.w500,
+                    fontColor: white),),
+              ],
+            )
+          ],
+        ),
+        )
+        )
+      )):Scaffold(
+        backgroundColor: white,
+        appBar: appBarWidget(
+          title: passengers,
+          fontsize: divHeight * 0.02,
+        ),
+        body: tripType == null
+            ? Center(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -118,13 +198,11 @@ class _PassengersState extends State<Passengers> {
                     text: "Select TripType :",
                     fontWeight: FontWeight.w900,
                     fontsize: divHeight * 0.02,
-                    fontColor: borderColor),
+                    fontColor: black),
                 SizedBox(
                   height: divHeight * 0.02,
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   chipButton(chipName: "PickUp"),
                   SizedBox(
                     width: divWidth * 0.02,
@@ -133,223 +211,237 @@ class _PassengersState extends State<Passengers> {
                 ])
               ],
             ))
-          : StreamBuilder(
-              stream:
-                  dbService.todaysPassengers(uid: userId, collectionName: date),
-              builder: (context, snapshots) {
-                if (!snapshots.hasData) return Loading();
-                Map<dynamic, dynamic> todaysHistory = snapshots.data!;
-                List passengersDocuments = [];
-                print(tripType);
-                if (todaysHistory
-                    .containsKey("${tripType!.toLowerCase()}PassengersList")) {
-                  passengersDocuments =
-                      todaysHistory["${tripType!.toLowerCase()}PassengersList"];
+            : StreamBuilder(
+            stream:
+            dbservice.todaysPassengers(uid: userId, collectionName: date),
+            builder: (context, snapshots) {
+              if (!snapshots.hasData) return Loading();
+              Map<dynamic, dynamic> todaysHistory = snapshots.data!;
+              List passengersDocuments = [];
+              if (todaysHistory
+                  .containsKey("${tripType!.toLowerCase()}PassengersList")) {
+                passengersDocuments =
+                todaysHistory["${tripType!.toLowerCase()}PassengersList"];
 
-                  for (int i = 0; i < passengersDocuments.length; i++) {
-                    currentPassengersDocuments
-                        .add(passengersDocuments[i]['docId']);
-                  }
-                  currentPassengersDocuments =
-                      currentPassengersDocuments.toSet().toList();
-                  print(currentPassengersDocuments);
-                } else {
-                  currentPassengersDocuments = [];
+                for (int i = 0; i < passengersDocuments.length; i++) {
+                  currentPassengersDocuments
+                      .add(passengersDocuments[i]['docId']);
                 }
+                currentPassengersDocuments =
+                    currentPassengersDocuments.toSet().toList();
+              } else {
+                currentPassengersDocuments = [];
+              }
+              List reversedDroplocations=[];
+              if(tripType=="PickUp"){
+                 reversedDroplocations=arrangedDroplocations.reversed.toList();
+              }
+              else{
+                reversedDroplocations=arrangedDroplocations;
+              }
 
-                return StreamBuilder(
-                    stream: dbService.totalPassengers(
-                      uid: userId,
-                    ),
-                    builder: (context, snapshots) {
-                      if (!snapshots.hasData) return Loading();
-                      QuerySnapshot upcomingQuerySnapshot = snapshots.data;
-                      List<DocumentSnapshot> upcomingDocuments =
-                          upcomingQuerySnapshot.docs;
 
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
+              return StreamBuilder(
+                  stream: dbservice.totalPassengers(
+                    uid: userId,
+                  ),
+                  builder: (context, snapshots) {
+                    if (!snapshots.hasData) return Loading();
+                    QuerySnapshot upcomingQuerySnapshot = snapshots.data;
+                    List<DocumentSnapshot> upcomingDocuments =
+                        upcomingQuerySnapshot.docs;
+
+                    return SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              children: [
+                                textWidget(
+                                    text: "TripType :  ",
+                                    fontWeight: FontWeight.w500,
+                                    fontsize: divHeight * 0.017,
+                                    fontColor: Colors.black),
+                                textWidget(
+                                    text: tripType!,
+                                    fontWeight: FontWeight.w500,
+                                    fontsize: divHeight * 0.017,
+                                    fontColor: tripType == "PickUp"
+                                        ? green
+                                        : red),
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      tripType = null;
+                                      TripType.write("type", null);
+                                    });
+                                  },
+                                  child: buttonWidget(
+                                      buttonName: "Edit TripType",
+                                      buttonWidth: divWidth * 0.5,
+                                      buttonColor: Colors.orangeAccent,
+                                      fontSize: divHeight * 0.017,
+                                      fontweight: FontWeight.w500,
+                                      fontColor: white),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: divHeight * 0.03,
+                            ),
+                           /* Row(
+                              children: [
+                                textWidget(
+                                    text: "Student Id :",
+                                    fontWeight: FontWeight.w500,
+                                    fontsize: divHeight * 0.022,
+                                    fontColor: borderColor),
+                                const Spacer(),
+                                SizedBox(
+                                    width: divWidth * 0.6,
+                                    child: textFieldWidget(
+                                      hintText: "",
+                                      control: studentId,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: divHeight * 0.02,
+                            ),*/
+                            //StudentIdBox(),
+                            Container(
+                              height: divHeight * 0.06,
+                              width: divWidth * 0.90,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      width: 1.0, color: blue),
+                                  color: white),
+                              child: Row(
                                 children: [
-                                  textWidget(
-                                      text: "TripType :  ",
-                                      fontWeight: FontWeight.w500,
-                                      fontsize: divHeight * 0.017,
-                                      fontColor: Colors.black),
-                                  textWidget(
-                                      text: tripType!,
-                                      fontWeight: FontWeight.w500,
-                                      fontsize: divHeight * 0.017,
-                                      fontColor: tripType == "PickUp"
-                                          ? Colors.green
-                                          : Colors.red),
-                                  Spacer(),
                                   InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        tripType = null;
-                                        TripType.write("type", null);
-                                      });
-                                    },
-                                    child: buttonWidget(
-                                        buttonName: "Edit TripType",
-                                        buttonWidth: divWidth * 0.5,
-                                        buttonColor: Colors.orangeAccent,
-                                        fontSize: divHeight * 0.017,
-                                        fontweight: FontWeight.w500,
-                                        fontColor: secondaryColor),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: divHeight * 0.03,
-                              ),
-                              Row(
-                                children: [
-                                  textWidget(
-                                      text: "Student Id :",
-                                      fontWeight: FontWeight.w500,
-                                      fontsize: divHeight * 0.022,
-                                      fontColor: Colors.black),
-                                  const Spacer(),
-                                  Container(
-                                      width: divWidth * 0.6,
-                                      child: textFieldWidget(
-                                        hintText: "",
-                                        control: studentId,
-                                      )),
-                                ],
-                              ),
-                              SizedBox(
-                                height: divHeight * 0.02,
-                              ),
-                              //StudentIdBox(),
-                              Container(
-                                height: divHeight * 0.06,
-                                width: divWidth * 0.90,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        width: 1.0, color: primaryColor),
-                                    color: secondaryColor),
-                                child: Row(
-                                  children: [
-                                    InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selected = !selected;
-                                          });
-                                        },
-                                        child: SwitchButtonWidget(
-                                            title: tripType == "PickUp"
-                                                ? "Passengers"
-                                                : "Dropped",
-                                            Selected: selected)),
-                                    InkWell(
                                       onTap: () {
                                         setState(() {
                                           selected = !selected;
                                         });
                                       },
-                                      child: SwitchButtonWidget(
+                                      child: switchButtonWidget(
                                           title: tripType == "PickUp"
-                                              ? "Upcoming"
-                                              : "Passengers",
-                                          Selected: !selected),
-                                    )
-                                  ],
-                                ),
+                                              ? "Passengers"
+                                              : "Dropped",
+                                          selected: selected)),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        selected = !selected;
+                                      });
+                                    },
+                                    child: switchButtonWidget(
+                                        title: tripType == "PickUp"
+                                            ? "Upcoming"
+                                            : "Passengers",
+                                        selected: !selected),
+                                  )
+                                ],
                               ),
-                              SizedBox(
-                                height: divHeight * 0.02,
-                              ),
-                              selected
-                                  ? passengersDocuments.length != 0
-                                      ? SizedBox(
-                                          height: divHeight * 0.4,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount:
-                                                passengersDocuments.length,
-                                            itemBuilder: (context, index) {
-                                              Map<String, dynamic> data =
-                                                  passengersDocuments[index];
+                            ),
+                            SizedBox(
+                              height: divHeight * 0.02,
+                            ),
+                            selected
+                                ? passengersDocuments.length != 0
+                                ? SizedBox(
+                                height: divHeight * 0.4,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                  passengersDocuments.length,
+                                  itemBuilder: (context, index) {
+                                    Map<String, dynamic> data =
+                                    passengersDocuments[index];
 
-                                              return StudentIdBox(
-                                                  checked: true,
-                                                  passengerDetails: data,
-                                                  uid: userId);
-                                            },
-                                          ))
-                                      : Center(
-                                          child: textWidget(
-                                              text: "Currently 0 passengers",
-                                              fontWeight: FontWeight.w500,
-                                              fontsize: divHeight * 0.017,
-                                              fontColor: borderColor))
-                                  : SizedBox(
-                                      height: divHeight * 0.65,
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: upcomingDocuments.length,
-                                        itemBuilder: (context, index) {
-                                          DocumentSnapshot document =
-                                              upcomingDocuments[index];
-                                          Map<String, dynamic> data = document
-                                              .data() as Map<String, dynamic>;
-                                          data["docId"] = document.id;
-                                          String documentId = document.id;
-                                          return !currentPassengersDocuments
-                                                  .contains(documentId)
-                                              ? StudentIdBox(
-                                                  checked: false,
-                                                  passengerDetails: data,
-                                                  uid: userId,
-                                                )
-                                              : SizedBox();
-                                        },
-                                      ),
-                                    ),
+                                    return studentIdBox(
+                                        checked: true,
+                                        passengerDetails: data,
+                                        uid: userId);
+                                  },
+                                ))
+                                : Center(
+                                child: textWidget(
+                                    text: "Currently 0 passengers",
+                                    fontWeight: FontWeight.w500,
+                                    fontsize: divHeight * 0.017,
+                                    fontColor: black))
+                                : SizedBox(
+                              height: divHeight * 0.65,
+                              child: ListView.builder(
+                                  itemCount: reversedDroplocations.length,
+                                  itemBuilder: (context,i){ return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: upcomingDocuments.length,
+                                itemBuilder: (context, index) {
 
-                              SizedBox(
-                                height: divHeight * 0.1,
+                                  DocumentSnapshot document =
+                                  upcomingDocuments[index];
+                                  Map<String, dynamic> data = document
+                                      .data() as Map<String, dynamic>;
+                                  data["docId"] = document.id;
+                                  String documentId = document.id;
+                                  return !currentPassengersDocuments
+                                      .contains(documentId)
+                                      ? reversedDroplocations[i]==data["droplocation"] ? studentIdBox(
+                                    checked: false,
+                                    passengerDetails: data,
+                                    uid: userId,
+                                  )
+                                      : const SizedBox():const SizedBox();
+                                },
+                              );
+                              }
                               ),
-                              // selected
-                              //     ? Row(
-                              //         mainAxisAlignment: MainAxisAlignment.end,
-                              //         children: [
-                              //             InkWell(
-                              //                 onTap: () {},
-                              //                 child: buttonWidget(
-                              //                     buttonName: "Submit All",
-                              //                     buttonWidth: divWidth * 0.4,
-                              //                     buttonColor: primaryColor,
-                              //                     fontSize: divHeight * 0.017,
-                              //                     fontweight: FontWeight.w500,
-                              //                     fontColor: secondaryColor))
-                              //           ])
-                              //     : SizedBox(),
-                            ],
-                          ),
+                            ),
+
+                            SizedBox(
+                              height: divHeight * 0.1,
+                            ),
+                            // selected
+                            //     ? Row(
+                            //         mainAxisAlignment: MainAxisAlignment.end,
+                            //         children: [
+                            //             InkWell(
+                            //                 onTap: () {},
+                            //                 child: buttonWidget(
+                            //                     buttonName: "Submit All",
+                            //                     buttonWidth: divWidth * 0.4,
+                            //                     buttonColor: primaryColor,
+                            //                     fontSize: divHeight * 0.017,
+                            //                     fontweight: FontWeight.w500,
+                            //                     fontColor: secondaryColor))
+                            //           ])
+                            //     : SizedBox(),
+                          ],
                         ),
-                      );
-                    });
-              }),
+                      ),
+                    );
+                  });
+            }),
+      );
+    }
     );
-  }
+    }
 
-  StudentIdBox({
+
+  studentIdBox({
     required Map passengerDetails,
     required bool checked,
     required String uid,
   }) {
     // final user = Provider.of<User?>(context);
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -366,9 +458,9 @@ class _PassengersState extends State<Passengers> {
                         text: passengerDetails["studentName"],
                         fontWeight: FontWeight.w500,
                         fontsize: divHeight * 0.017,
-                        fontColor: borderColor),
+                        fontColor: black),
                     textWidget(
-                        text: passengerDetails["classAndSec"],
+                        text: passengerDetails["studentId"],
                         fontWeight: FontWeight.w500,
                         fontsize: divHeight * 0.017,
                         fontColor: Colors.black45),
@@ -380,10 +472,11 @@ class _PassengersState extends State<Passengers> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textWidget(
-                        text: passengerDetails["studentId"],
+                        text: passengerDetails["droplocation"],
                         fontWeight: FontWeight.w500,
                         fontsize: divHeight * 0.017,
-                        fontColor: primaryColor),
+                        fontColor: blue),
+
                     //TextWidget(text: "1.00 pm", fontWeight: FontWeight.w500, fontsize: divHeight*0.017, fontColor: Colors.black),
                   ],
                 ),
@@ -398,21 +491,20 @@ class _PassengersState extends State<Passengers> {
                       IconButton(
                         icon: const Icon(
                           Icons.check_box_outline_blank_rounded,
-                          color: Colors.black,
+                          color: black,
                         ),
                         onPressed: () async {
-                          await dbService.addPassengersInTodaysDate(
+                          await dbservice.addPassengersInTodaysDate(
                               uid: uid,
                               uploadPassengerDetails: passengerDetails,
                               uploadTripType: tripType!);
-
                         },
                       ),
                     checked
                         ? IconButton(
                             onPressed: () async {
                               // print(currentPassengersDocuments);
-                              await dbService.deletePassengerFromList(
+                              await dbservice.deletePassengerFromList(
                                   uid: uid,
                                   passengerDetails: passengerDetails,
                                   uploadTripType: tripType!);
@@ -425,7 +517,7 @@ class _PassengersState extends State<Passengers> {
                             },
                             icon: const Icon(
                               Icons.delete_outline_outlined,
-                              color: absentColor,
+                              color: red,
                             ))
                         : const Text(""),
                   ],
@@ -436,19 +528,19 @@ class _PassengersState extends State<Passengers> {
         ));
   }
 
-  SwitchButtonWidget({required String title, required bool Selected}) {
+  switchButtonWidget({required String title, required bool selected}) {
     return Container(
       height: divHeight * 0.06,
       width: divWidth * 0.447,
       decoration: BoxDecoration(
-          color: Selected ? primaryColor : Colors.transparent,
+          color: selected ? blue : Colors.transparent,
           borderRadius: BorderRadius.circular(9)),
       child: Center(
         child: textWidget(
             text: title,
             fontWeight: FontWeight.w700,
             fontsize: divHeight * 0.017,
-            fontColor: Selected ? secondaryColor : borderColor),
+            fontColor: selected ? white : black),
       ),
     );
   }
@@ -463,11 +555,12 @@ class _PassengersState extends State<Passengers> {
           });
         },
         child: Chip(
-            backgroundColor: chipName == "PickUp" ? presentColor: absentColor,
+            backgroundColor: chipName == "PickUp" ? green : red,
             label: textWidget(
                 text: chipName,
                 fontWeight: FontWeight.w500,
                 fontsize: divHeight * 0.017,
-                fontColor: secondaryColor)),
+                fontColor: white)),
       );
 }
+

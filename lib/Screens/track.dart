@@ -1,20 +1,21 @@
 import 'package:driver/Commons/common_Colors.dart';
 import 'package:driver/Custom_Widgets/custom_appBar.dart';
-import 'package:driver/Custom_Widgets/custom_snackBar.dart';
+
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
+import 'package:driver/Services/auth_Service.dart';
 import 'package:driver/Services/locationService.dart';
 import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';
-
-class RoutePath extends StatefulWidget {
-  const RoutePath({super.key});
+class TrackVechile extends StatefulWidget {
+  const TrackVechile({super.key});
 
   @override
-  State<RoutePath> createState() => _RoutePathState();
+  State<TrackVechile> createState() => _TrackVechileState();
 }
 
-class _RoutePathState extends State<RoutePath> {
+class _TrackVechileState extends State<TrackVechile> {
+
   bool _isTracking = false;
   double _currentSpeed = 0.0;
 
@@ -22,14 +23,12 @@ class _RoutePathState extends State<RoutePath> {
     bool hasPermission = await LocationService().requestLocationPermission();
 
     if (!hasPermission) {
-      print("Location permission denied!");
       return;
     }
 
     bool serviceEnabled = await LocationService().isLocationServiceEnabled();
     if (!serviceEnabled) {
       //message(context: context, Content: "Location services are disabled.", fontSize: divHeight*0.17, fontColor: secondaryColor, BarColor: absentColor);
-      print("Location services are disabled.");
       return;
     }
 
@@ -68,19 +67,37 @@ class _RoutePathState extends State<RoutePath> {
             ElevatedButton(
                 onPressed: _toggleTracking,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isTracking ? absentColor : presentColor,
+                  backgroundColor: _isTracking ? red : green,
                 ),
                 child: textWidget(
                     text: _isTracking ? "Stop Tracking" : "Start Tracking",
                     fontWeight: FontWeight.w500,
                     fontsize: divHeight * 0.017,
-                    fontColor: secondaryColor)),
+                    fontColor: white)),
             SizedBox(height: divHeight * 0.01),
             textWidget(
                 text: "Current Speed: ${_currentSpeed.toStringAsFixed(2)} km/h",
                 fontWeight: FontWeight.w500,
                 fontsize: divHeight * 0.017,
-                fontColor: borderColor),
+                fontColor: white),
+            ElevatedButton(
+                onPressed: (){
+                  AuthService().logOut();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _isTracking ? red : green,
+                ),
+                child: textWidget(
+                    text: _isTracking ? "Tracking" : "Tracking",
+                    fontWeight: FontWeight.w500,
+                    fontsize: divHeight * 0.017,
+                    fontColor: white)),
+            SizedBox(height: divHeight * 0.01),
+            textWidget(
+                text: "Current Speed: ${_currentSpeed.toStringAsFixed(2)} km/h",
+                fontWeight: FontWeight.w500,
+                fontsize: divHeight * 0.017,
+                fontColor: white),
           ],
         ),
       ),

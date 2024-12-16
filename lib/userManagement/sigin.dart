@@ -7,11 +7,15 @@ import 'package:driver/Custom_Widgets/custom_textFieldWidget.dart';
 import 'package:driver/Custom_Widgets/custom_textWidget.dart';
 import 'package:driver/Pojo/vechileDetails_Pojo.dart';
 import 'package:driver/Screens/bottom_bar.dart';
+import 'package:driver/student/locationPickerScreen.dart';
 import 'package:driver/Services/db_Service.dart';
+import 'package:driver/student/showRoute.dart';
+import 'package:driver/userManagement/check_Auth.dart';
 import 'package:driver/userManagement/signup.dart';
 import 'package:driver/Services/auth_Service.dart';
 
 import 'package:flutter/material.dart';
+
 class Signin extends StatefulWidget {
   const Signin({super.key});
 
@@ -20,64 +24,144 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+  late double divHeight, divWidth;
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  AuthService authService = AuthService();
+  VechileDetails vechileDetails = VechileDetails();
+  DBService dbService = DBService();
 
-  late double divHeight,divWidth;
-  TextEditingController email=TextEditingController();
-  TextEditingController password=TextEditingController();
-  AuthService authService=AuthService();
-  VechileDetails vechileDetails=VechileDetails();
-  DBService dbService=DBService();
   @override
   Widget build(BuildContext context) {
-    divHeight=MediaQuery.of(context).size.height;
-    divWidth=MediaQuery.of(context).size.width;
+    divHeight = MediaQuery.of(context).size.height;
+    divWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: secondaryColor,
-      appBar: appBarWidget(fontsize:divHeight*0.02 , title: 'Login'),
-      body:SingleChildScrollView(
-
-        child: Padding(padding: const EdgeInsets.all(15),child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset("Assets/signInImg.png",height: divHeight*0.35,fit: BoxFit.cover,),
-            SizedBox(height: divHeight*0.02,),
-            textFieldWidget(hintText: "Enter your email", control: email,prefixIcon: const Icon(Icons.mail_outline_rounded,color: borderColor,)),
-            SizedBox(height: divHeight*0.02,),
-            textFieldWidget(hintText: "Enter your password", control: password,prefixIcon: const Icon(Icons.key_rounded,color: borderColor,)),
-            SizedBox(height: divHeight*0.04,),
-            InkWell(
-              onTap: signInUser,
-
-              child:buttonWidget(buttonName: "Login", buttonWidth: divWidth*0.45, buttonColor: primaryColor, fontSize: divHeight*0.017, fontweight: FontWeight.w500, fontColor: secondaryColor),),
-            SizedBox(height: divHeight*0.06,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                textWidget(text: "Don't have an account?  ", fontWeight: FontWeight.normal, fontsize: divHeight*0.019, fontColor: borderColor),
-                InkWell(onTap:(){
-                  Navigator.pop(context, MaterialPageRoute(builder: (context)=>const Signup()));
-                },child:textWidget(text: "SignUp", fontWeight: FontWeight.bold, fontsize: divHeight*0.019, fontColor: primaryColor),)
-
-
-              ],
-            ),
-          ],
-        ),),
-      ) ,
+      backgroundColor: white,
+      appBar: appBarWidget(fontsize: divHeight * 0.02, title: 'Login'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "Assets/signInImg.png",
+                height: divHeight * 0.35,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(
+                height: divHeight * 0.02,
+              ),
+              textFieldWidget(
+                  hintText: "Enter your email",
+                  control: email,
+                  prefixIcon: const Icon(
+                    Icons.mail_outline_rounded,
+                    color: black,
+                  )),
+              SizedBox(
+                height: divHeight * 0.02,
+              ),
+              textFieldWidget(
+                  hintText: "Enter your password",
+                  control: password,
+                  prefixIcon: const Icon(
+                    Icons.key_rounded,
+                    color: black,
+                  )),
+              SizedBox(
+                height: divHeight * 0.04,
+              ),
+              InkWell(
+                onTap: signInUser,
+                child: buttonWidget(
+                    buttonName: "Login",
+                    buttonWidth: divWidth * 0.45,
+                    buttonColor: blue,
+                    fontSize: divHeight * 0.017,
+                    fontweight: FontWeight.w500,
+                    fontColor: white),
+              ),
+              SizedBox(
+                height: divHeight * 0.04,
+              ),
+              InkWell(
+                onTap: () async {
+                  try {
+                    String uid = await authService.loginUser(
+                      userEmail: email.text,
+                      userPassword: password.text,
+                    );
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => const ShowRoute()));
+                  } on FirebaseException catch (e) {
+                    message(
+                        context: context,
+                        Content: e.code.toString(),
+                        fontSize: divHeight * 0.017,
+                        fontColor: white,
+                        BarColor: red);
+                  }
+                },
+                child: buttonWidget(
+                    buttonName: "Student Login",
+                    buttonWidth: divWidth * 0.45,
+                    buttonColor: blue,
+                    fontSize: divHeight * 0.017,
+                    fontweight: FontWeight.w500,
+                    fontColor: white),
+              ),
+              SizedBox(
+                height: divHeight * 0.06,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  textWidget(
+                      text: "Don't have an account?  ",
+                      fontWeight: FontWeight.normal,
+                      fontsize: divHeight * 0.019,
+                      fontColor: black),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Signup()));
+                    },
+                    child: textWidget(
+                        text: "SignUp",
+                        fontWeight: FontWeight.bold,
+                        fontsize: divHeight * 0.019,
+                        fontColor: blue),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-  signInUser() async{
+
+  signInUser() async {
     try {
-      String uid =await  authService.loginUser(
-        userEmail: email.text, userPassword: password.text,);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const BottomBar()));
-    }
-    on FirebaseException catch (e){
-      message(context: context, Content: e.code.toString(), fontSize: divHeight*0.017, fontColor:secondaryColor , BarColor: absentColor);
+      String uid = await authService.loginUser(
+        userEmail: email.text,
+        userPassword: password.text,
+      );
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const CheckAuth()));
+    } on FirebaseException catch (e) {
+      message(
+          context: context,
+          Content: e.code.toString(),
+          fontSize: divHeight * 0.017,
+          fontColor: white,
+          BarColor: red);
     }
   }
 }
-
 
 /*
  Row(

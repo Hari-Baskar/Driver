@@ -5,17 +5,20 @@ import 'package:flutter/material.dart';
 appBarWidget({
   required String title,
   required double fontsize,
-  dynamic? actions
+  dynamic? actions,
+  bool? drawer
+
 
 })  =>
 
     AppBar(
       iconTheme:  const IconThemeData(
-        color: secondaryColor, // Change the drawer icon color to white
+        color: white, // Change the drawer icon color to white
       ),
-      backgroundColor: primaryColor,
+      backgroundColor: blue,
+        automaticallyImplyLeading: drawer!=null ? true :false,
       centerTitle: true,
-      title: textWidget(text: title, fontWeight: FontWeight.bold, fontsize: fontsize, fontColor: secondaryColor),
+      title: textWidget(text: title, fontWeight: FontWeight.bold, fontsize: fontsize, fontColor: white),
       actions: actions
     );
 

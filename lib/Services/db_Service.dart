@@ -4,15 +4,26 @@ import 'package:driver/Pojo/vechileDetails_Pojo.dart';
 import 'package:intl/intl.dart';
 
 class DBService {
-  VechileDetails vechileDetails = VechileDetails();
+
 
   createUserWithDetails({
-    required VechileDetails vechileDetailsPojo,
+    required Map vechileDetails,
   }) async {
     return await firestore
         .collection("driver")
-        .doc(vechileDetailsPojo.uid)
-        .set(vechileDetailsPojo.toJosn());
+        .doc(vechileDetails["uid"])
+        .set({
+      "driverName":vechileDetails["driverName"],
+      "vechileID":vechileDetails["vechileID"],
+      "uid":vechileDetails["uid"],
+      "email":vechileDetails["email"],
+      "droplocationArranged":false,
+      "droplocations":[],
+      "petrolAllowanceAmount":0,
+      "vechileServiceAmount":0,
+      "route":null,
+      "arrangedDroplocations":[],
+    });
   }
 
   Stream getVechileDetails({required String uid}) {
@@ -23,7 +34,7 @@ class DBService {
     return firestore
         .collection("driver")
         .doc(uid)
-        .collection("passengers")
+        .collection("students")
         .snapshots();
   }
 
@@ -197,6 +208,59 @@ class DBService {
         .collection("history")
         .doc(docId)
         .get();
+  }
+
+  Stream getRoutes(){
+    return firestore.collection("route").snapshots();
+  }
+
+  selectedRoute({
+    required String routeName,
+  }) {
+    return firestore.collection("route").doc(routeName).get();
+  }
+
+  confirmDroplocation({
+    required String uid,
+    required String droplocation,
+    required String route,
+}){
+    return firestore.collection("students").doc(uid).update({
+      "route":route,
+      "droplocation":droplocation
+    });
+}
+
+Stream showDroplocations({required String route}){
+    return firestore.collection("route").doc(route).snapshots();
+}
+updateDroplocation({
+    required String droplocation,
+  required String uid,
+}){
+    return firestore.collection("driver").doc(uid).update({
+      "arrangedDroplocations":FieldValue.arrayUnion([
+        droplocation
+      ])
+    });
+}
+deleteDroplocation({
+  required String droplocation,
+  required String uid,
+}){
+  return firestore.collection("driver").doc(uid).update({
+    "arrangedDroplocations":FieldValue.arrayRemove([
+      droplocation
+    ])
+  });
+}
+
+  setArrangeDropLocationsToTrue({
+    required String uid
+})async{
+    return await firestore.collection("driver").doc(uid).update({
+      'droplocationArranged':true,
+    });
   }
 
 
